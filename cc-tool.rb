@@ -2,7 +2,9 @@ require 'formula'
 
 class CcTool < Formula
   homepage 'https://github.com/suphammer/cc-tool'
+  version "0.26"
   url 'https://github.com/suphammer/cc-tool.git'
+  revision 1
 
   depends_on 'libusb'
   depends_on 'boost'
