@@ -12,7 +12,7 @@ class Proxmark3 < Formula
   depends_on "suphammer/misc/arm-none-eabi-gcc" => :build
 
   patch do
-    https://gist.githubusercontent.com/suphammer/79732ff728e41d71de3bfb08cb0b8d49/raw/4a8ee806c804ce19395e6a66a3b638d3994b371f/proxmark3-memory-sniffer.patch
+    url https://gist.githubusercontent.com/suphammer/79732ff728e41d71de3bfb08cb0b8d49/raw/4a8ee806c804ce19395e6a66a3b638d3994b371f/proxmark3-memory-sniffer.patch
   end
 
   def install
