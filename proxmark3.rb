@@ -9,10 +9,10 @@ class Proxmark3 < Formula
   
   depends_on "readline"
   depends_on "pkg-config" => :build
-  depends_on "suphammer/misc/arm-none-eabi-gcc" => :build
 
   patch do
-    url "https://gist.githubusercontent.com/suphammer/79732ff728e41d71de3bfb08cb0b8d49/raw/4a8ee806c804ce19395e6a66a3b638d3994b371f/proxmark3-memory-sniffer.patch"
+    url "https://gist.githubusercontent.com/suphammer/79732ff728e41d71de3bfb08cb0b8d49/raw/24e3998c8def2e6993276c32841fbe3dda842a31/proxmark3-memory-sniffer.patch"
+    sha256 "6213c2fe320a162847a7587d1efc18af0325fc37f81519f58f763a4256894759"
   end
 
   def install
@@ -21,12 +21,11 @@ class Proxmark3 < Formula
     ENV['HOMEBREW_PROXMARK3_PLATFORM'] = 'PM3OTHER'
 
     system "make", "clean"
-    system "make", "all", "PLATFORM=#{ENV['HOMEBREW_PROXMARK3_PLATFORM']}"
+    system "make", "client", "PLATFORM=#{ENV['HOMEBREW_PROXMARK3_PLATFORM']}"
 
-    system "make", "install", "PREFIX=#{prefix}", "PLATFORM=#{ENV['HOMEBREW_PROXMARK3_PLATFORM']}"
+    system "make", "client/install", "PREFIX=#{prefix}", "PLATFORM=#{ENV['HOMEBREW_PROXMARK3_PLATFORM']}"
 
     ohai "Install success!"
-    ohai "The latest bootloader and firmware binaries are ready and waiting in the current homebrew Cellar within share/firmware."
   end
 
   test do
