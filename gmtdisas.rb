@@ -9,8 +9,8 @@ class Gmtdisas < Formula
   patch :DATA
 
   def install
-    system "make"
-    system "make", "install"
+    system "make", "DESTDIR=#{prefix}"
+    system "make", "install", "DESTDIR=#{prefix}"
   end
 
   test do
@@ -20,7 +20,7 @@ end
 
 __END__
 diff --git a/gmtdisas.c b/gmtdisas.c
-index 7d4cafc..00f4658 100644
+index 7d4cafc..cf02e46 100644
 --- a/gmtdisas.c
 +++ b/gmtdisas.c
 @@ -78,7 +78,7 @@ main (int argc, char **argv)
@@ -28,25 +28,33 @@ index 7d4cafc..00f4658 100644
  
    if (prog_mode & PROG_MODE_IONAME) {
 -    FILE *iofile = fopen ("/usr/share/gmtdisas/stm8.inc", "r");
-+    FILE *iofile = fopen ("/opt/homebrew/Cellar/gmtdisas/head/share/stm8.inc", "r");
++    FILE *iofile = fopen (STM8_INC_PATH "/stm8.inc", "r");
      if (!iofile) {
        puts (strerror(errno));
        prog_mode &= ~PROG_MODE_IONAME;
 diff --git a/makefile b/makefile
-index c6a1d82..37f584b 100644
+index c6a1d82..7a940d0 100644
 --- a/makefile
 +++ b/makefile
-@@ -6,9 +6,10 @@ all:
+@@ -1,14 +1,16 @@
+-
+-CFLAGS= -g -Wall -Werror -o2 -std=gnu99
++DEFAULT_DESTDIR = /usr/local
++DESTDIR ?= $(DEFAULT_DESTDIR)
++CFLAGS= -g -Wall -Werror -o2 -std=gnu99 -DSTM8_INC_PATH='"$(DESTDIR)/share"'
+ CC= gcc
+ 
+ all:
  	$(CC) $(CFLAGS) gmtdisas.c -o gmtdisas
  
  install:
 -	cp -u gmtdisas /usr/local/bin/gmtdisas
 -	-mkdir /usr/share/gmtdisas
 -	cp -u stm8.inc /usr/share/gmtdisas/
-+	-mkdir -p /opt/homebrew/Cellar/gmtdisas/head/bin
-+	cp gmtdisas /opt/homebrew/Cellar/gmtdisas/head/bin/
-+	-mkdir -p /opt/homebrew/Cellar/gmtdisas/head/share
-+	cp stm8.inc /opt/homebrew/Cellar/gmtdisas/head/share/
++	mkdir -p $(DESTDIR)/bin
++	cp -p gmtdisas $(DESTDIR)/bin/
++	mkdir -p $(DESTDIR)/share
++	cp -p stm8.inc $(DESTDIR)/share/
  
  clean:
  	rm gmtdisas
