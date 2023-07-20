@@ -32,6 +32,21 @@ index 7d4cafc..cf02e46 100644
      if (!iofile) {
        puts (strerror(errno));
        prog_mode &= ~PROG_MODE_IONAME;
+diff --git a/ins.h b/ins.h
+index ea73763..3716b5d 100644
+--- a/ins.h
++++ b/ins.h
+@@ -35,8 +35,8 @@ typedef struct {
+ 
+ static const instruction ins_table[]={
+     {"neg  ", SHORTOFF_SP_2, 0, 2},
+-    {"rrwa ", REG_X, 0, 1},
+-    {"rlwa ", REG_X, 0, 1},
++    {"rrwa ", REG_X, REG_A, 1},
++    {"rlwa ", REG_X, REG_A, 1},
+     {"cpl  ", SHORTOFF_SP_2, 0, 2},
+     {"sra  ", SHORTOFF_SP_2, 0, 2},
+     {"void ", 0, 0, 0},
 diff --git a/makefile b/makefile
 index c6a1d82..7a940d0 100644
 --- a/makefile
